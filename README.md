@@ -172,9 +172,9 @@ print(gen.generate(n=5))
 
 ### Toponym languages
 
-Abkhazian, Armenian, Azerbaijani, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, Georgian, German, Gothic, Icelandic, Irish, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Swedish, Welsh
+Abkhazian, Armenian, Azerbaijani, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Georgian, German, Gothic, Icelandic, Irish, Italian, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Spanish, Swedish, Welsh
 
-> **Note:** Basque, Catalan, French, Italian, and Spanish toponym datasets contain only the raw place-name list — the beginnings/endings analysis files have not yet been produced. `PlaceNameGenerator` will raise `ValueError` for those languages until the analysis is complete.
+> **Note:** Basque and Catalan toponym datasets contain only the raw place-name list and are not yet usable with `PlaceNameGenerator`.
 
 ### Ethnonym families
 
