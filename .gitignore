@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+smoke_test_output.txt
+
+# Local CSV corpus — lives in the onomaturgy-data repo
+setting/
+
+# Generated manifest (belongs to onomaturgy-data repo)
+manifest.json
+
+# Local data package stub (dev convenience, not part of the distribution)
+onomaturgy_data/
