@@ -5,8 +5,8 @@ and are named after language families (e.g. ``Germanic.csv``,
 ``Celtic.csv``).
 """
 
-from generators.word_generator import WordGenerator
-from helpers.data_manager import get_path, list_dir
+from onomaturgy.generators.word_generator import WordGenerator
+from onomaturgy.helpers.data_manager import get_path, list_dir
 
 
 def get_ethnonym_paths(language_families: list[str]) -> list[str]:

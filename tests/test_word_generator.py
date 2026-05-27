@@ -1,5 +1,5 @@
 import pytest
-from generators.word_generator import WordPicker, WordGenerator
+from onomaturgy.generators.word_generator import WordPicker, WordGenerator
 
 NAMES = ['alice', 'bob', 'carol', 'dave', 'eve', 'frank', 'grace', 'henry']
 WEIGHTS = [1 / len(NAMES)] * len(NAMES)

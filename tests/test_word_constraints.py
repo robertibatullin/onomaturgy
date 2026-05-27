@@ -1,4 +1,4 @@
-from generators.word_constraints import (
+from onomaturgy.generators.word_constraints import (
     count_word_parts,
     count_syllables,
     WordExtremes,

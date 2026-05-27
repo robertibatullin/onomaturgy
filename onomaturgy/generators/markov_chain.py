@@ -9,10 +9,10 @@ to anchor the output to a specific ending pattern.
 import random
 from collections import defaultdict
 
-from generators.base_generator import BaseGenerator
-from helpers.csv_loaders import load_names_with_weights
-from generators.word_constraints import WordConstraints, WordExtremes
-from generators.helpers import (
+from onomaturgy.generators.base_generator import BaseGenerator
+from onomaturgy.helpers.csv_loaders import load_names_with_weights
+from onomaturgy.generators.word_constraints import WordConstraints, WordExtremes
+from onomaturgy.generators.helpers import (
     phonetic_match,
     phonetic_search,
     random_choice

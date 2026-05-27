@@ -6,6 +6,16 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.1] — 2026-05-27
+
+### Added
+
+- `onomaturgy` subdir, and moved `generators`, `tools` and `helpers` there.
+
+- Imported all user-end generators into `onomaturgy.__init__` so they are importable as `from onomaturgy import SomeGenerator`.
+
+---
+
 ## [0.2.0] — 2026-05-27
 
 ### Added

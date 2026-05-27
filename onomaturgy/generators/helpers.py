@@ -16,7 +16,7 @@ with ``".+"`` (the free-match anchor) but not both.  For example:
 import re
 import random
 
-from generators.constants import vowels, consonants
+from onomaturgy.generators.constants import vowels, consonants
 
 
 def phonetic_match(pattern: str, word: str) -> str | None:

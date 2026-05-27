@@ -21,10 +21,10 @@ _log = open('smoke_test_output.txt', 'w', encoding='utf-8')
 sys.stdout = _Tee(sys.stdout, _log)
 
 
-from generators.simple_name import SimpleNameGenerator
-from generators.personal_name import PersonalNameGenerator
-from generators.tribal_name import TribalNameGenerator
-from generators.place_name import PlaceNameGenerator
+from onomaturgy.generators.simple_name import SimpleNameGenerator
+from onomaturgy.generators.personal_name import PersonalNameGenerator
+from onomaturgy.generators.tribal_name import TribalNameGenerator
+from onomaturgy.generators.place_name import PlaceNameGenerator
 
 N = 8
 PASS = 0

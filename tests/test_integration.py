@@ -3,11 +3,11 @@ Integration tests that use the real CSV data under setting/.
 Run with: pytest -m integration
 """
 import pytest
-from generators.simple_name import SimpleNameGenerator
-from generators.personal_name import PersonalNameGenerator
-from generators.tribal_name import TribalNameGenerator
-from generators.place_name import PlaceNameGenerator
-from generators.generator_factory import generator_factory
+from onomaturgy.generators.simple_name import SimpleNameGenerator
+from onomaturgy.generators.personal_name import PersonalNameGenerator
+from onomaturgy.generators.tribal_name import TribalNameGenerator
+from onomaturgy.generators.place_name import PlaceNameGenerator
+from onomaturgy.generators.generator_factory import generator_factory
 
 pytestmark = pytest.mark.integration
 
@@ -137,8 +137,8 @@ class TestTribalNameGenerator:
         assert len(g.generate(8)) > 0
 
     def test_corpus_only_results_from_corpus(self):
-        from helpers.csv_loaders import load_names_with_weights
-        from generators.tribal_name import get_ethnonym_paths
+        from onomaturgy.helpers.csv_loaders import load_names_with_weights
+        from onomaturgy.generators.tribal_name import get_ethnonym_paths
         paths = get_ethnonym_paths(['Germanic'])
         corpus = set()
         for p in paths:

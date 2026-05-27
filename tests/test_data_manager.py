@@ -16,8 +16,8 @@ from pathlib import Path
 
 import pytest
 
-import helpers.data_manager as dm
-from generators.simple_name import SimpleNameGenerator
+import onomaturgy.helpers.data_manager as dm
+from onomaturgy.generators.simple_name import SimpleNameGenerator
 
 
 # ---------------------------------------------------------------------------

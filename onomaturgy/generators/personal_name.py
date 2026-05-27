@@ -7,8 +7,8 @@ by sampling each part in sequence with a consistent gender.
 
 import random
 
-from generators.simple_name import NamePartType, SimpleNameGenerator
-from generators.base_generator import BaseGenerator
+from onomaturgy.generators.simple_name import NamePartType, SimpleNameGenerator
+from onomaturgy.generators.base_generator import BaseGenerator
 
 
 class PersonalNameGenerator(BaseGenerator):

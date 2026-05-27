@@ -1,5 +1,5 @@
-from generators.helpers import phonetic_match, phonetic_search, random_choice
-from helpers.csv_loaders import load_names_with_weights
+from onomaturgy.generators.helpers import phonetic_match, phonetic_search, random_choice
+from onomaturgy.helpers.csv_loaders import load_names_with_weights
 
 
 class TestPhoneticMatch:

@@ -1,5 +1,5 @@
 import pytest
-from generators.markov_chain import MarkovChainWordGenerator
+from onomaturgy.generators.markov_chain import MarkovChainWordGenerator
 
 # Enough names so the chain can produce novel words
 CORPUS = [

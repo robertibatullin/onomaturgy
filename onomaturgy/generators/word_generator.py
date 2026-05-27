@@ -2,10 +2,10 @@
 
 import random
 
-from generators.base_generator import BaseGenerator
-from helpers.csv_loaders import load_names_with_weights
-from generators.markov_chain import MarkovChainWordGenerator
-from generators.word_constraints import WordConstraints
+from onomaturgy.generators.base_generator import BaseGenerator
+from onomaturgy.helpers.csv_loaders import load_names_with_weights
+from onomaturgy.generators.markov_chain import MarkovChainWordGenerator
+from onomaturgy.generators.word_constraints import WordConstraints
 
 
 class WordPicker(BaseGenerator):

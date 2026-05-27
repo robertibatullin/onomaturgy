@@ -17,10 +17,10 @@ import csv
 import os
 import random
 
-from generators.base_generator import BaseGenerator
-from generators.word_constraints import WordConstraints
-from generators.markov_chain import MarkovChainWordGenerator
-from helpers.data_manager import get_path, try_get_path
+from onomaturgy.generators.base_generator import BaseGenerator
+from onomaturgy.generators.word_constraints import WordConstraints
+from onomaturgy.generators.markov_chain import MarkovChainWordGenerator
+from onomaturgy.helpers.data_manager import get_path, try_get_path
 
 
 class PlaceNameGenerator(BaseGenerator):

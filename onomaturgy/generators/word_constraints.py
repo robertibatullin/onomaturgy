@@ -11,7 +11,7 @@ Provides two helper functions (:func:`count_word_parts`,
 
 from dataclasses import dataclass, asdict
 
-from generators.constants import vowels
+from onomaturgy.generators.constants import vowels
 
 
 def count_word_parts(word: str) -> int:

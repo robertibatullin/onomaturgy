@@ -10,8 +10,8 @@ merged.
 from enum import Enum, auto
 import os
 
-from generators.word_generator import WordGenerator
-from helpers.data_manager import get_path, list_dir
+from onomaturgy.generators.word_generator import WordGenerator
+from onomaturgy.helpers.data_manager import get_path, list_dir
 
 
 class NamePartType(Enum):

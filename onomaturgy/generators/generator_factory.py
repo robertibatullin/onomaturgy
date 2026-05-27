@@ -1,10 +1,10 @@
 """Factory function for creating and caching generators from YAML config dicts."""
 
-from generators.base_generator import BaseGenerator
-from generators.word_generator import WordGenerator
-from generators.simple_name import SimpleNameGenerator
-from generators.place_name import PlaceNameGenerator
-from generators.tribal_name import TribalNameGenerator
+from onomaturgy.generators.base_generator import BaseGenerator
+from onomaturgy.generators.word_generator import WordGenerator
+from onomaturgy.generators.simple_name import SimpleNameGenerator
+from onomaturgy.generators.place_name import PlaceNameGenerator
+from onomaturgy.generators.tribal_name import TribalNameGenerator
 
 def generator_factory(config: dict, context: dict) -> BaseGenerator:
     """Instantiate (or return a cached) generator from a config dictionary.
