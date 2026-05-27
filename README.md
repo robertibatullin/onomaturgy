@@ -105,7 +105,7 @@ print(gen.generate(n=5))
 | Danish | Danish |
 | Dutch | Dutch |
 | EarlyByzantine | Early Byzantine (given names only) |
-| English | British English |
+| English | American, British English |
 | Estonian | Estonian |
 | Faeroese | Faroese |
 | Finnish | Finnish |
@@ -117,12 +117,15 @@ print(gen.generate(n=5))
 | Hungarian | Hungarian |
 | Icelandic | Icelandic (given names only) |
 | Indian | Indian, Nepali, Sri Lankan |
+| Indonesian | Indonesian |
 | Iranian | Iranian |
 | Irish | Irish |
 | Israeli | Israeli |
 | Italian | Italian |
+| Japanese | Japanese |
 | Kazakh | Kazakh (with gendered surnames) |
 | Khmer | Khmer |
+| Korean | South Korean |
 | Laotian | Laotian |
 | Latvian | Latvian (with gendered surnames) |
 | Lithuanian | Lithuanian (with gendered surnames) |

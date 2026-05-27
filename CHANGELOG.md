@@ -6,6 +6,16 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.3] — 2026-05-27
+
+### Added
+- Personal name corpora for **American** (under `English`), **Indonesian**,
+  **Japanese**, and **Korean** (South Korean) — see `onomaturgy-data` 0.2.3.
+- `README.md` updated: personal name languages table reflects all four new
+  entries.
+
+---
+
 ## [0.2.2] — 2026-05-27
 
 ### Added
