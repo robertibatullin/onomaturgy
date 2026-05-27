@@ -6,7 +6,7 @@ This project is split across two git repositories that are **always versioned an
 
 | Repo | GitHub | Local path | Contains |
 |---|---|---|---|
-| `onomaturgy` | robertibatullin/onomaturgy | `c:/Users/User/projects/onomaturgy` | Python packages `generators/`, `helpers/`; tests; tools; docs |
+| `onomaturgy` | robertibatullin/onomaturgy | `c:/Users/User/projects/onomaturgy` | Python package `onomaturgy/` (submodules `generators/`, `helpers/`, `tools/`); tests; docs |
 | `onomaturgy-data` | robertibatullin/onomaturgy-data | `c:/Users/User/projects/onomaturgy-data` | All CSV corpora under `onomaturgy_data/csv/`; `manifest.json`; the `onomaturgy-data` pip package |
 
 **Hard rule: no CSV data ever goes in the `onomaturgy` repo.**  
@@ -55,16 +55,17 @@ Tests are in `tests/`. Integration tests are marked `@pytest.mark.integration`. 
 ## Code layout
 
 ```
-generators/          Generator classes (SimpleNameGenerator, PlaceNameGenerator, …)
-helpers/
-  data_manager.py    Download-on-demand layer — the only code that touches file paths
-  csv_loaders.py     CSV reading utilities
-tools/
-  compile_toponyms.py  Script to process raw toponym CSVs into derived files
+onomaturgy/              Top-level Python package
+  generators/            Generator classes (SimpleNameGenerator, PlaceNameGenerator, …)
+  helpers/
+    data_manager.py      Download-on-demand layer — the only code that touches file paths
+    csv_loaders.py       CSV reading utilities
+  tools/
+    compile_toponyms.py  Script to process raw toponym CSVs into derived files
 tests/
-  test_data_manager.py  Unit tests for all three resolution paths of data_manager
-  test_integration.py   Integration tests against real corpora
-config.py            Documentation stub for the ONOMATURGY_CACHE env var
+  test_data_manager.py   Unit tests for all three resolution paths of data_manager
+  test_integration.py    Integration tests against real corpora
+config.py                Documentation stub for the ONOMATURGY_CACHE env var
 ```
 
 ---
@@ -104,7 +105,7 @@ manifest.json                Canonical list of every CSV path (see below)
 
 ## manifest.json
 
-`manifest.json` in the `onomaturgy-data` repo root maps every data directory path (relative to `onomaturgy_data/csv/`) to a list of CSV filenames. It is used by `helpers/data_manager.py` when the `onomaturgy-data` package is not installed (download-on-demand path) to know which files exist without being able to `ls` a remote URL.
+`manifest.json` in the `onomaturgy-data` repo root maps every data directory path (relative to `onomaturgy_data/csv/`) to a list of CSV filenames. It is used by `onomaturgy/helpers/data_manager.py` when the `onomaturgy-data` package is not installed (download-on-demand path) to know which files exist without being able to `ls` a remote URL.
 
 **Keep it in sync with the actual files.** After adding or removing any CSV in the data repo, update `manifest.json` in the same commit.
 
@@ -132,7 +133,7 @@ All work in the `onomaturgy-data` repo, using the compilation tool from the `ono
 
 2. Run the compilation script (from the `onomaturgy-data` repo root):
    ```bash
-   python c:/Users/User/projects/onomaturgy/tools/compile_toponyms.py \
+   python c:/Users/User/projects/onomaturgy/onomaturgy/tools/compile_toponyms.py \
        onomaturgy_data/csv/toponyms/namesets/<Language>/<Language>.csv
    ```
    This produces five files alongside the raw CSV:
@@ -159,7 +160,7 @@ Both packages share a version number. Bump both together:
 
 ## data_manager resolution order
 
-`helpers/data_manager.py` resolves every file request through three tiers, in order:
+`onomaturgy/helpers/data_manager.py` resolves every file request through three tiers, in order:
 
 1. **Installed package** — if `onomaturgy-data` is importable, its bundled `csv/` directory is used directly; no download.
 2. **Local cache** — `~/.cache/onomaturgy/csv/` (override with the `ONOMATURGY_CACHE` env var).

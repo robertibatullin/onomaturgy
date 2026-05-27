@@ -21,7 +21,7 @@ cd onomaturgy
 pip install -e .[dev]
 ```
 
-The `[dev]` extra installs `onomaturgy-data` from the local `onomaturgy_data/` subdirectory so the corpus is available immediately.
+The `[dev]` extra installs `onomaturgy-data` so the corpus is available immediately.
 
 ## Quick Start
 
@@ -30,7 +30,7 @@ Generators load their corpus lazily on the first `generate()` call (or explicit 
 ### Personal names
 
 ```python
-from generators.personal_name import PersonalNameGenerator
+from onomaturgy import PersonalNameGenerator
 
 gen = PersonalNameGenerator(
     'Russian',
@@ -44,7 +44,7 @@ print(gen.generate(n=5, female_fraction=0.4))
 ### Place names
 
 ```python
-from generators.place_name import PlaceNameGenerator
+from onomaturgy import PlaceNameGenerator
 
 gen = PlaceNameGenerator(
     'English',
@@ -59,7 +59,7 @@ print(gen.generate(n=5))
 ### Tribal / ethnonymic names
 
 ```python
-from generators.tribal_name import TribalNameGenerator
+from onomaturgy import TribalNameGenerator
 
 gen = TribalNameGenerator('Germanic', markov=0.7, pattern=None)
 print(gen.generate(n=5))
@@ -69,7 +69,7 @@ print(gen.generate(n=5))
 ### Factory pattern (config-driven)
 
 ```python
-from generators.generator_factory import generator_factory
+from onomaturgy.generators.generator_factory import generator_factory
 
 context = {}
 config = {
