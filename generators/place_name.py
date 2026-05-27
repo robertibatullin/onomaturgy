@@ -28,7 +28,7 @@ class PlaceNameGenerator(BaseGenerator):
 
     Args:
         *languages: Language folder names under
-            ``setting/csv/toponyms/namesets/``.
+            ``toponyms/namesets/`` in the corpus data package.
         pattern: Optional phonetic suffix/prefix pattern for the main part.
             ``None`` or ``'.+'`` means unconstrained.
         place_categories: List of feature-type strings used to filter

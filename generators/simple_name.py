@@ -1,8 +1,8 @@
 """Single-part name generator backed by language-specific CSV corpora.
 
-CSV files for a given language live under
-``setting/csv/names/<Language>/``.  File names must end with one of the
-suffixes recognised by :func:`get_nameset_paths` (e.g. ``_m.csv``,
+CSV files for a given language live under ``names/<Language>/`` in the
+corpus data package.  File names must end with one of the suffixes
+recognised by :func:`get_nameset_paths` (e.g. ``_m.csv``,
 ``_sf.csv``).  Multiple files matching the suffix are all loaded and
 merged.
 """
@@ -31,8 +31,8 @@ def get_nameset_paths(
     """Return all CSV paths for the given language(s), name-part type, and gender.
 
     Files are discovered by scanning each language directory under
-    ``setting/csv/names/`` and retaining those whose base name ends with
-    one of the expected suffixes:
+    ``names/`` in the corpus data package and retaining those whose base
+    name ends with one of the expected suffixes:
 
     ============================  ==================
     (name_part_type, gender)      accepted suffixes

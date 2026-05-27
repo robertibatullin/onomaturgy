@@ -317,7 +317,7 @@ PlaceNameGenerator(
 ```python
 def train(self) -> None
 ```
-Loads CSV data from `setting/csv/toponyms/namesets/<Language>/` and trains the internal Markov chain on `<Language>_cleared.csv`.
+Loads CSV data from `toponyms/namesets/<Language>/` in the corpus data package and trains the internal Markov chain on `<Language>_cleared.csv`.
 
 ```python
 def generate(self, n: int) -> list[str]
@@ -337,7 +337,7 @@ gen.separate_endings    # list[tuple[word, place_category, frequency]]
 ### Data file layout (per language)
 
 ```
-setting/csv/toponyms/namesets/<Language>/
+toponyms/namesets/<Language>/          ← relative to the corpus data root
     <Language>_cleared.csv           — name, frequency
     <Language>_beginnings.csv        — beginning, place_category
     <Language>_endings.csv           — ending, place_category

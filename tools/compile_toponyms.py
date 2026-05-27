@@ -8,8 +8,8 @@ Output (same directory):
   <Language>_separate_beginnings.csv  place_category, separate_beginning, frequency
   <Language>_separate_endings.csv     place_category, separate_ending,    frequency
 
-Usage:
-  python tools/compile_toponyms.py setting/csv/toponyms/namesets/French/French.csv [...]
+Usage (run from the onomaturgy-data repo root):
+  python /path/to/onomaturgy/tools/compile_toponyms.py onomaturgy_data/csv/toponyms/namesets/French/French.csv [...]
 """
 
 import csv

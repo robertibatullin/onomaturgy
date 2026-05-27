@@ -1,7 +1,8 @@
 """Tribal / ethnic group name generator backed by ethnonym corpora.
 
-Ethnonym CSV files live under ``setting/csv/ethnonyms/`` and are named
-after language families (e.g. ``Germanic.csv``, ``Celtic.csv``).
+Ethnonym CSV files live under ``ethnonyms/`` in the corpus data package
+and are named after language families (e.g. ``Germanic.csv``,
+``Celtic.csv``).
 """
 
 from generators.word_generator import WordGenerator
@@ -36,7 +37,7 @@ class TribalNameGenerator(WordGenerator):
 
     Args:
         *languages: One or more language-family names matching files in
-            ``setting/csv/ethnonyms/``.
+            ``ethnonyms/`` in the corpus data package.
         markov: Synthesis fraction.
         pattern: Optional phonetic constraint pattern.
         **constraints: Forwarded to
