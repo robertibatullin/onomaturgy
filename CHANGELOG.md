@@ -6,6 +6,16 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.2] — 2026-05-27
+
+### Added
+- Personal name corpora for **Algerian** (under `Arabic`), **Cameroonian**,
+  **Chinese**, and **Israeli** — see `onomaturgy-data` 0.2.2 for the CSV files.
+- `README.md` updated: personal name languages table reflects all four new
+  entries.
+
+---
+
 ## [0.2.1] — 2026-05-27
 
 ### Added

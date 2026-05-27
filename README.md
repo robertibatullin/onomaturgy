@@ -95,10 +95,12 @@ print(gen.generate(n=5))
 | Afghan | Afghan |
 | Albanian | Albanian |
 | AngloSaxon | Anglo-Saxon (given names only) |
-| Arabic | Libyan, Syrian |
+| Arabic | Algerian, Libyan, Syrian |
 | Armenian | Armenian |
 | Azeri | Azerbaijani (with gendered surnames) |
 | Burmese | Burmese |
+| Cameroonian | Cameroonian |
+| Chinese | Chinese |
 | Czech | Czech (with gendered surnames) |
 | Danish | Danish |
 | Dutch | Dutch |
@@ -117,6 +119,7 @@ print(gen.generate(n=5))
 | Indian | Indian, Nepali, Sri Lankan |
 | Iranian | Iranian |
 | Irish | Irish |
+| Israeli | Israeli |
 | Italian | Italian |
 | Kazakh | Kazakh (with gendered surnames) |
 | Khmer | Khmer |
@@ -144,7 +147,7 @@ print(gen.generate(n=5))
 
 ### Toponym languages
 
-Abkhazian, Armenian, Azerbaijani, Basque, Catalan, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Georgian, German, Gothic, Icelandic, Irish, Italian, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Spanish, Swedish, Welsh
+Abkhazian, Armenian, Azerbaijani, Basque, Catalan, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Georgian, German, Icelandic, Irish, Italian, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Spanish, Swedish, Welsh
 
 ### Place categories
 
