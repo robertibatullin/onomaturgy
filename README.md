@@ -66,33 +66,6 @@ print(gen.generate(n=5))
 # ['Marcomanni', 'Thuringi', 'Saxones', ...]
 ```
 
-### Name transformers
-
-```python
-from generators.name_transformers import (
-    AdjectiveFromEthnonymGenerator,
-    CountryNameFromLatinEthnonymGenerator,
-    CountryNameFromNativeEthnonymGenerator,
-    DynastyNameGenerator,
-)
-
-adj_gen = AdjectiveFromEthnonymGenerator('Saxones')
-adj_gen.train()
-print(adj_gen.generate(1))   # ['Saxonian', 'Saxonean']
-
-country_gen = CountryNameFromLatinEthnonymGenerator('Saxones')
-country_gen.train()
-print(country_gen.generate(1))   # ['Saxonia']
-
-native_gen = CountryNameFromNativeEthnonymGenerator('Saxons', language_family='Germanic')
-native_gen.train()
-print(native_gen.generate(1))   # ['Saxonland', 'Saxonen']
-
-dynasty_gen = DynastyNameGenerator('OldNorse', markov=0.5, pattern=None)
-dynasty_gen.train()
-print(dynasty_gen.generate(3))   # ['Bjorning', 'Haraling', 'Yngling']
-```
-
 ### Factory pattern (config-driven)
 
 ```python
@@ -159,7 +132,6 @@ print(gen.generate(n=5))
 | OldWelsh | Old Welsh (given names only) |
 | Polish | Polish (with gendered surnames) |
 | Portuguese | Brazilian, Portuguese |
-| PseudoOldFinnic | Fictional Proto-Finnic (given names only) |
 | Romanian | Romanian |
 | Russian | Russian (with patronymics and gendered surnames) |
 | SerboCroatian | Croatian, Serbian |
@@ -172,9 +144,30 @@ print(gen.generate(n=5))
 
 ### Toponym languages
 
-Abkhazian, Armenian, Azerbaijani, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Georgian, German, Gothic, Icelandic, Irish, Italian, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Spanish, Swedish, Welsh
+Abkhazian, Armenian, Azerbaijani, Basque, Catalan, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Georgian, German, Gothic, Icelandic, Irish, Italian, Latvian, Lithuanian, NorthEastcaucasian, Norwegian, Ossetian, Polish, RomanWest, Scottish, Spanish, Swedish, Welsh
 
-> **Note:** Basque and Catalan toponym datasets contain only the raw place-name list and are not yet usable with `PlaceNameGenerator`.
+### Place categories
+
+Pass one or more of these strings as `place_categories` to `PlaceNameGenerator`. An empty list uses all categories.
+
+| Category | Feature type |
+|---|---|
+| `area` | Generic geographic area |
+| `basin` | River or drainage basin |
+| `concave shoreline` | Bay, gulf, inlet, fjord |
+| `convex shoreline` | Cape, headland, peninsula |
+| `depression` | Valley, gorge, hollow |
+| `elevated area` | Plateau, upland |
+| `elevation` | Mountain, hill, peak |
+| `glacier` | Glacier, ice field |
+| `island` | Island or islet |
+| `marsh` | Swamp, fen, wetland |
+| `populated place` | City, town, village, hamlet |
+| `region` | Historical or cultural region |
+| `shoreline` | General coastal feature |
+| `strait` | Channel or strait |
+| `stream` | River, stream, brook |
+| `underwater elevation` | Shoal, bank, reef |
 
 ### Ethnonym families
 
@@ -186,15 +179,11 @@ Abkhazian, Armenian, Azerbaijani, Croatian, Czech, Danish, Dutch, English, Eston
 BaseGenerator (abstract)
 ├── WordGenerator
 │   ├── SimpleNameGenerator      — personal name parts
-│   │   └── DynastyNameGenerator — adds dynasty suffix
 │   └── TribalNameGenerator      — ethnonyms
 ├── MarkovChainWordGenerator     — Markov synthesis engine
 ├── WordPicker                   — weighted corpus sampling
 ├── PlaceNameGenerator           — toponyms with category affixes
-├── PersonalNameGenerator        — composes multiple name parts
-├── AdjectiveFromEthnonymGenerator
-├── CountryNameFromLatinEthnonymGenerator
-└── CountryNameFromNativeEthnonymGenerator
+└── PersonalNameGenerator        — composes multiple name parts
 ```
 
 ## Running tests

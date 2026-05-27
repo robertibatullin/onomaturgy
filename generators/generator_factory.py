@@ -5,13 +5,6 @@ from generators.word_generator import WordGenerator
 from generators.simple_name import SimpleNameGenerator
 from generators.place_name import PlaceNameGenerator
 from generators.tribal_name import TribalNameGenerator
-from generators.name_transformers import (
-    AdjectiveFromEthnonymGenerator,
-    CountryNameFromLatinEthnonymGenerator,
-    CountryNameFromNativeEthnonymGenerator,
-    DynastyNameGenerator
-)
-
 
 def generator_factory(config: dict, context: dict) -> BaseGenerator:
     """Instantiate (or return a cached) generator from a config dictionary.

@@ -278,7 +278,7 @@ Returns paths to existing ethnonym CSVs. Silently skips missing families.
 
 **`generators/place_name.py`**
 
-Generates place names with optional geographic-category prefixes/suffixes. Requires `pandas`.
+Generates place names with optional geographic-category prefixes/suffixes.
 
 ```python
 PlaceNameGenerator(
@@ -290,6 +290,27 @@ PlaceNameGenerator(
 ```
 
 `place_categories` filters the beginning/ending affixes loaded from the data files. Pass an empty list to use all categories.
+
+### Available place categories
+
+| Category | Feature type |
+|---|---|
+| `area` | Generic geographic area |
+| `basin` | River or drainage basin |
+| `concave shoreline` | Bay, gulf, inlet, fjord |
+| `convex shoreline` | Cape, headland, peninsula |
+| `depression` | Valley, gorge, hollow |
+| `elevated area` | Plateau, upland |
+| `elevation` | Mountain, hill, peak |
+| `glacier` | Glacier, ice field |
+| `island` | Island or islet |
+| `marsh` | Swamp, fen, wetland |
+| `populated place` | City, town, village, hamlet |
+| `region` | Historical or cultural region |
+| `shoreline` | General coastal feature |
+| `strait` | Channel or strait |
+| `stream` | River, stream, brook |
+| `underwater elevation` | Shoal, bank, reef |
 
 ### Methods
 
@@ -306,11 +327,11 @@ Returns `n` place names. If `max_word_parts == 1`, returns bare Markov-generated
 ### Properties (after `train()`)
 
 ```python
-gen.names               # pd.DataFrame — full name corpus
-gen.beginnings          # pd.DataFrame — compound beginnings by category
-gen.endings             # pd.DataFrame — compound endings by category
-gen.separate_beginnings # pd.DataFrame — separate prefix tokens
-gen.separate_endings    # pd.DataFrame — separate suffix tokens
+gen.names               # list[tuple[name, frequency]] — full name corpus
+gen.beginnings          # list[tuple[beginning, place_category]]
+gen.endings             # list[tuple[ending, place_category]]
+gen.separate_beginnings # list[tuple[word, place_category, frequency]]
+gen.separate_endings    # list[tuple[word, place_category, frequency]]
 ```
 
 ### Data file layout (per language)
@@ -323,94 +344,6 @@ setting/csv/toponyms/namesets/<Language>/
     <Language>_separate_beginnings.csv — separate_beginning, place_category, frequency
     <Language>_separate_endings.csv  — separate_ending, place_category, frequency
 ```
-
----
-
-## Name transformer generators
-
-All four classes below are **rule-based** (no training corpus needed). `train()` is a no-op. `generate(n)` ignores `n` and returns as many forms as the rules produce.
-
-### `AdjectiveFromEthnonymGenerator`
-
-**`generators/name_transformers.py`**
-
-Derives a demonym adjective from an ethnonym.
-
-```python
-AdjectiveFromEthnonymGenerator(ethnonym: str)
-gen.generate(n)  # returns list[str]
-```
-
-| Input suffix | Output |
-|---|---|
-| `ii` | `…ian` (drop one `i`) |
-| `i` | `…ian` |
-| `es` | `…ian`, `…ean` |
-| `ans` | `…an` |
-| `s` | `…ian` |
-| `ae` | `…n`, `…nian` |
-| ends with vowel | `…nian` |
-| other | unchanged |
-
-### `CountryNameFromLatinEthnonymGenerator`
-
-Derives country names from a Latin-form ethnonym.
-
-```python
-CountryNameFromLatinEthnonymGenerator(ethnonym: str)
-gen.generate(n)  # returns list[str]
-```
-
-| Input suffix | Output |
-|---|---|
-| `ii` | `…ia` |
-| `i` | `…ia` (drop `i`) |
-| `es` | `…ia` |
-| `ians` | `…ia` |
-| `ans` | `…a`, `…` |
-| `s` | `…ia`, `…` |
-| `ae` | `…`, `…nia` |
-| other | unchanged, `…ia` |
-
-
-### `CountryNameFromNativeEthnonymGenerator`
-
-Derives country names using language-family-specific rules.
-
-```python
-CountryNameFromNativeEthnonymGenerator(
-    ethnonym: str,
-    language_family: str | None = None,  # 'Germanic', 'Celtic', 'Finnic'
-)
-gen.generate(n)  # returns list[str]
-```
-
-| Language family | Rules |
-|---|---|
-| `Germanic` | Strips trailing `s`, removes final vowels → `…land`, `…en` |
-| `Celtic` | Strips trailing `s`, returns singular and `Dal <singular>` |
-| `Finnic` | Returns `<ethnonym>maa` |
-| other / `None` | Returns nothing |
-
-### `DynastyNameGenerator`
-
-Generates dynasty names by producing male given names and applying a language-specific suffix. Inherits `SimpleNameGenerator`.
-
-```python
-DynastyNameGenerator(
-    *languages: str,        # single language; uses languages[0] for suffix
-    pattern: str | None,
-    markov: float,
-    **constraints
-)
-gen.generate(n)  # returns list[str]
-```
-
-| Language | Suffix rule |
-|---|---|
-| `OldGerman`, `Gothic`, `AngloSaxon`, `OldNorse` | strip trailing vowels + `ing` |
-| `OldIrish` | `Ui <stem>` |
-| all others | strip trailing vowels + `id` |
 
 ---
 

@@ -25,12 +25,6 @@ from generators.simple_name import SimpleNameGenerator
 from generators.personal_name import PersonalNameGenerator
 from generators.tribal_name import TribalNameGenerator
 from generators.place_name import PlaceNameGenerator
-from generators.name_transformers import (
-    AdjectiveFromEthnonymGenerator,
-    CountryNameFromLatinEthnonymGenerator,
-    CountryNameFromNativeEthnonymGenerator,
-    DynastyNameGenerator,
-)
 
 N = 8
 PASS = 0
@@ -156,49 +150,6 @@ run('English + Norwegian mixed',
                        place_categories=['populated place'],
                        max_word_parts=2))
 
-
-# ── DynastyNameGenerator ──────────────────────────────────────
-
-section('DynastyNameGenerator')
-
-run('Old Norse dynasty names  (…ing suffix)',
-    DynastyNameGenerator('OldNorse', pattern=None, markov=0.5))
-
-run('Old German dynasty names  (…ing suffix)',
-    DynastyNameGenerator('OldGerman', pattern=None, markov=0.5))
-
-run('Old Irish dynasty names  (Ui … prefix)',
-    DynastyNameGenerator('OldIrish', pattern=None, markov=0.5))
-
-run('Anglo-Saxon dynasty names  (…ing suffix)',
-    DynastyNameGenerator('AngloSaxon', pattern=None, markov=0.5))
-
-
-# ── Name transformer generators ───────────────────────────────
-
-section('AdjectiveFromEthnonymGenerator')
-for ethnonym in ('Saxones', 'Franci', 'Germani', 'Sclavi', 'Baltae', 'Galli'):
-    gen = AdjectiveFromEthnonymGenerator(ethnonym)
-    gen.train()
-    print(f'  {ethnonym:15} → {gen.generate(1)}')
-
-section('CountryNameFromLatinEthnonymGenerator')
-for ethnonym in ('Saxones', 'Franci', 'Germani', 'Sclavi', 'Lithuani', 'Romani'):
-    gen = CountryNameFromLatinEthnonymGenerator(ethnonym)
-    gen.train()
-    print(f'  {ethnonym:15} → {gen.generate(1)}')
-
-section('CountryNameFromNativeEthnonymGenerator')
-for ethnonym, family in [
-    ('Saxons',   'Germanic'),
-    ('Franks',   'Germanic'),
-    ('Gaels',    'Celtic'),
-    ('Brythons', 'Celtic'),
-    ('Suomi',    'Finnic'),
-]:
-    gen = CountryNameFromNativeEthnonymGenerator(ethnonym, language_family=family)
-    gen.train()
-    print(f'  {ethnonym:12} ({family:10}) → {gen.generate(1)}')
 
 
 # ── Summary ───────────────────────────────────────────────────
