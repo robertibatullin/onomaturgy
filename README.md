@@ -107,6 +107,7 @@ print(gen.generate(n=5))
 | EarlyByzantine | Early Byzantine (given names only) |
 | English | American, British English |
 | Estonian | Estonian |
+| Ethiopian | Ethiopian |
 | Faeroese | Faroese |
 | Finnish | Finnish |
 | French | French |

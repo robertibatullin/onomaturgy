@@ -6,6 +6,14 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.4] — 2026-05-31
+
+### Added
+- Personal name corpus for **Ethiopian** — see `onomaturgy-data` 0.2.4.
+- `README.md` updated: Ethiopian added to the personal name languages table.
+
+---
+
 ## [0.2.3] — 2026-05-27
 
 ### Added
