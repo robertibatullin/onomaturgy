@@ -6,6 +6,20 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.3.0] — 2026-06-04
+
+### Added
+- `CompanyNameGenerator` — generates company names using company-name corpora,
+  mirroring `PlaceNameGenerator` with `industries=` instead of `place_categories=`.
+- `tools/compile_companies.py` — compilation script for raw company-name CSVs
+  (`name,industry` columns); produces the same five derived files as
+  `compile_toponyms.py` (cleared, beginnings, endings, separate_beginnings,
+  separate_endings), using `industry` instead of `place_category`.
+- `CompanyNameGenerator` exported from `onomaturgy.__init__` and registered
+  in `generator_factory.py`.
+
+---
+
 ## [0.2.4] — 2026-05-31
 
 ### Added

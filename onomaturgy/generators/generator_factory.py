@@ -4,6 +4,7 @@ from onomaturgy.generators.base_generator import BaseGenerator
 from onomaturgy.generators.word_generator import WordGenerator
 from onomaturgy.generators.simple_name import SimpleNameGenerator
 from onomaturgy.generators.place_name import PlaceNameGenerator
+from onomaturgy.generators.company_name import CompanyNameGenerator
 from onomaturgy.generators.tribal_name import TribalNameGenerator
 
 def generator_factory(config: dict, context: dict) -> BaseGenerator:
