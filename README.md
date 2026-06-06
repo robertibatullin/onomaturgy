@@ -193,6 +193,19 @@ BaseGenerator (abstract)
 └── PersonalNameGenerator        — composes multiple name parts
 ```
 
+## Web UI
+
+A browser-based interface for all five generators ships in `webui/`. It requires Flask:
+
+```bash
+pip install -e .[webui]
+python webui/app.py
+```
+
+Then open `http://localhost:5000`. The UI lets you choose a generator, configure
+all its parameters (languages, markov weight, constraints, etc.), and generate
+names in real time.
+
 ## Running tests
 
 ```bash

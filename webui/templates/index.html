@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onomaturgy — Name Generator</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  background: #f5f5f5;
+  color: #222;
+  padding: 24px;
+}
+
+h1 { font-size: 1.4rem; font-weight: 600; margin-bottom: 20px; }
+h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #444; }
+h3 { font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 6px; }
+
+.layout { display: flex; gap: 24px; align-items: flex-start; }
+
+.panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.controls-panel { flex: 0 0 480px; min-width: 320px; }
+.output-panel { flex: 1 1 0; min-width: 200px; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 500; margin-bottom: 4px; color: #333; }
+.field label small { font-weight: 400; color: #888; font-size: 12px; }
+
+input[type=text], input[type=number], select, textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+input[type=range] { width: 100%; }
+select[multiple] { height: 130px; }
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slider-row input[type=range] { flex: 1; }
+.slider-val {
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  color: #555;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 16px 0;
+}
+
+.hidden { display: none !important; }
+
+.generator-section { display: none; }
+.generator-section.active { display: block; }
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox-label input[type=checkbox] { width: auto; }
+
+.name-part-row {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: #fafafa;
+}
+.name-part-row.disabled .name-part-details { opacity: 0.45; pointer-events: none; }
+.name-part-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.name-part-header .order-input {
+  width: 46px;
+  padding: 3px 5px;
+  font-size: 12px;
+}
+.name-part-details { margin-left: 22px; }
+
+.constraints-section details {
+  background: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 0;
+}
+.constraints-section details summary {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  color: #555;
+  user-select: none;
+}
+.constraints-section details[open] summary { border-bottom: 1px solid #e5e5e5; }
+.constraints-inner { padding: 10px 10px 4px; }
+
+.btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-primary:disabled { background: #93c5fd; cursor: default; }
+.btn-secondary { background: #e5e7eb; color: #333; }
+.btn-secondary:hover { background: #d1d5db; }
+
+.action-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+#status {
+  font-size: 12px;
+  color: #888;
+}
+
+#output {
+  width: 100%;
+  height: calc(100vh - 160px);
+  min-height: 300px;
+  font-family: monospace;
+  font-size: 13px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background: #fafafa;
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+<h1>Onomaturgy — Name Generator</h1>
+
+<div class="layout">
+  <!-- ── Controls ─────────────────────────────────────────────────── -->
+  <div class="panel controls-panel">
+
+    <div class="field">
+      <label for="generatorType">Generator</label>
+      <select id="generatorType" onchange="switchGenerator()">
+        <option value="SimpleNameGenerator">SimpleNameGenerator</option>
+        <option value="PersonalNameGenerator">PersonalNameGenerator</option>
+        <option value="PlaceNameGenerator">PlaceNameGenerator</option>
+        <option value="CompanyNameGenerator">CompanyNameGenerator</option>
+        <option value="TribalNameGenerator">TribalNameGenerator</option>
+      </select>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SimpleNameGenerator
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="sec-SimpleNameGenerator" class="generator-section active">
+      <h2>SimpleNameGenerator</h2>
+
+      <div class="field">
+        <label for="sng-langs">Languages <small>(Ctrl/⌘ for multiple)</small></label>
+        <select id="sng-langs" multiple>
+          {% for lang in personal_name_languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="sng-npt">Name part type</label>
+          <select id="sng-npt">
+            <option value="given_name">given_name</option>
+            <option value="surname">surname</option>
+            <option value="patronymic">patronymic</option>
+            <option value="metronymic">metronymic</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <div style="display:flex;gap:16px;padding-top:6px;">
+            <label class="checkbox-label"><input type="radio" name="sng-gender" value="male" checked> male</label>
+            <label class="checkbox-label"><input type="radio" name="sng-gender" value="female"> female</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Markov <small>(0 = corpus sampling, 1 = fully synthetic)</small></label>
+        <div class="slider-row">
+          <input type="range" id="sng-markov" min="0" max="1" step="0.05" value="0.5"
+                 oninput="updateSliderVal('sng-markov','sng-markov-val')">
+          <span class="slider-val" id="sng-markov-val">0.50</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="sng-pattern">Pattern <small>(optional regex, e.g. <code>.+ov</code>)</small></label>
+        <input type="text" id="sng-pattern" placeholder="leave blank for unconstrained">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="sng-no-repeat" checked>
+          no_repeat (exclude corpus words and duplicates)
+        </label>
+      </div>
+
+      <div class="field constraints-section">
+        <details>
+          <summary>Word Constraints</summary>
+          <div class="constraints-inner">
+            <div class="grid-2">
+              <div class="field">
+                <label for="sng-min-chars">min_characters</label>
+                <input type="number" id="sng-min-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="sng-max-chars">max_characters</label>
+                <input type="number" id="sng-max-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="sng-min-syl">min_syllables</label>
+                <input type="number" id="sng-min-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="sng-max-syl">max_syllables</label>
+                <input type="number" id="sng-max-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="sng-min-wp">min_word_parts</label>
+                <input type="number" id="sng-min-wp" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="sng-max-wp">max_word_parts</label>
+                <input type="number" id="sng-max-wp" min="1" placeholder="none">
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label for="sng-n">Count (n)</label>
+        <input type="number" id="sng-n" value="20" min="1" max="10000">
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         PersonalNameGenerator
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="sec-PersonalNameGenerator" class="generator-section">
+      <h2>PersonalNameGenerator</h2>
+
+      <div class="field">
+        <label for="png-langs">Languages <small>(Ctrl/⌘ for multiple)</small></label>
+        <select id="png-langs" multiple>
+          {% for lang in personal_name_languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Name pattern <small>— check parts to include; set order (position in name)</small></label>
+        {% for part in name_parts %}
+        <div class="name-part-row" id="png-part-row-{{ part }}">
+          <div class="name-part-header">
+            <label class="checkbox-label">
+              <input type="checkbox" id="png-part-{{ part }}"
+                     onchange="toggleNamePart('{{ part }}')"
+                     {% if part == 'given_name' %}checked{% endif %}>
+              <strong>{{ part }}</strong>
+            </label>
+            <label style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12px;color:#666;">
+              order
+              <input type="number" class="order-input" id="png-order-{{ part }}"
+                     value="{{ loop.index }}" min="1" max="10">
+            </label>
+          </div>
+          <div class="name-part-details" id="png-part-details-{{ part }}">
+            <div class="field">
+              <label>markov</label>
+              <div class="slider-row">
+                <input type="range" id="png-markov-{{ part }}" min="0" max="1" step="0.05" value="0.5"
+                       oninput="updateSliderVal('png-markov-{{ part }}','png-markov-val-{{ part }}')">
+                <span class="slider-val" id="png-markov-val-{{ part }}">0.50</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>pattern <small>(optional regex)</small></label>
+              <input type="text" id="png-pattern-{{ part }}" placeholder="leave blank for unconstrained">
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="field">
+        <label>female_fraction <small>(0 = all male, 1 = all female)</small></label>
+        <div class="slider-row">
+          <input type="range" id="png-ff" min="0" max="1" step="0.05" value="0.5"
+                 oninput="updateSliderVal('png-ff','png-ff-val')">
+          <span class="slider-val" id="png-ff-val">0.50</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="png-n">Count (n)</label>
+        <input type="number" id="png-n" value="20" min="1" max="10000">
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         PlaceNameGenerator
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="sec-PlaceNameGenerator" class="generator-section">
+      <h2>PlaceNameGenerator</h2>
+
+      <div class="field">
+        <label for="plng-langs">Languages <small>(Ctrl/⌘ for multiple)</small></label>
+        <select id="plng-langs" multiple>
+          {% for lang in toponym_languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="plng-cats">Place categories <small>(none selected = all categories)</small></label>
+        <select id="plng-cats" multiple>
+          {% for cat in place_categories %}
+          <option value="{{ cat }}">{{ cat }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="plng-pattern">Pattern <small>(optional regex for the main part)</small></label>
+        <input type="text" id="plng-pattern" placeholder="leave blank for unconstrained">
+      </div>
+
+      <div class="field constraints-section">
+        <details>
+          <summary>Word Constraints</summary>
+          <div class="constraints-inner">
+            <div class="grid-2">
+              <div class="field">
+                <label for="plng-min-chars">min_characters</label>
+                <input type="number" id="plng-min-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="plng-max-chars">max_characters</label>
+                <input type="number" id="plng-max-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="plng-min-syl">min_syllables</label>
+                <input type="number" id="plng-min-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="plng-max-syl">max_syllables</label>
+                <input type="number" id="plng-max-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="plng-min-wp">min_word_parts</label>
+                <input type="number" id="plng-min-wp" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="plng-max-wp">max_word_parts</label>
+                <input type="number" id="plng-max-wp" min="1" placeholder="none">
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label for="plng-n">Count (n)</label>
+        <input type="number" id="plng-n" value="20" min="1" max="10000">
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         CompanyNameGenerator
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="sec-CompanyNameGenerator" class="generator-section">
+      <h2>CompanyNameGenerator</h2>
+
+      <div class="field">
+        <label for="cng-langs">Languages <small>(country codes; Ctrl/⌘ for multiple)</small></label>
+        <select id="cng-langs" multiple>
+          {% for lang in company_languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="cng-inds">Industries <small>(none selected = all industries)</small></label>
+        <select id="cng-inds" multiple>
+          {% for ind in industries %}
+          <option value="{{ ind }}">{{ ind }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="cng-pattern">Pattern <small>(optional regex for the main part)</small></label>
+        <input type="text" id="cng-pattern" placeholder="leave blank for unconstrained">
+      </div>
+
+      <div class="field constraints-section">
+        <details>
+          <summary>Word Constraints</summary>
+          <div class="constraints-inner">
+            <div class="grid-2">
+              <div class="field">
+                <label for="cng-min-chars">min_characters</label>
+                <input type="number" id="cng-min-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="cng-max-chars">max_characters</label>
+                <input type="number" id="cng-max-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="cng-min-syl">min_syllables</label>
+                <input type="number" id="cng-min-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="cng-max-syl">max_syllables</label>
+                <input type="number" id="cng-max-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="cng-min-wp">min_word_parts</label>
+                <input type="number" id="cng-min-wp" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="cng-max-wp">max_word_parts</label>
+                <input type="number" id="cng-max-wp" min="1" placeholder="none">
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label for="cng-n">Count (n)</label>
+        <input type="number" id="cng-n" value="20" min="1" max="10000">
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         TribalNameGenerator
+    ══════════════════════════════════════════════════════════════ -->
+    <div id="sec-TribalNameGenerator" class="generator-section">
+      <h2>TribalNameGenerator</h2>
+
+      <div class="field">
+        <label for="tng-langs">Language families <small>(Ctrl/⌘ for multiple)</small></label>
+        <select id="tng-langs" multiple>
+          {% for lang in tribal_languages %}
+          <option value="{{ lang }}">{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Markov <small>(0 = corpus sampling, 1 = fully synthetic)</small></label>
+        <div class="slider-row">
+          <input type="range" id="tng-markov" min="0" max="1" step="0.05" value="0.5"
+                 oninput="updateSliderVal('tng-markov','tng-markov-val')">
+          <span class="slider-val" id="tng-markov-val">0.50</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="tng-pattern">Pattern <small>(optional regex)</small></label>
+        <input type="text" id="tng-pattern" placeholder="leave blank for unconstrained">
+      </div>
+
+      <div class="field">
+        <label class="checkbox-label">
+          <input type="checkbox" id="tng-no-repeat" checked>
+          no_repeat (exclude corpus words and duplicates)
+        </label>
+      </div>
+
+      <div class="field constraints-section">
+        <details>
+          <summary>Word Constraints</summary>
+          <div class="constraints-inner">
+            <div class="grid-2">
+              <div class="field">
+                <label for="tng-min-chars">min_characters</label>
+                <input type="number" id="tng-min-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="tng-max-chars">max_characters</label>
+                <input type="number" id="tng-max-chars" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="tng-min-syl">min_syllables</label>
+                <input type="number" id="tng-min-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="tng-max-syl">max_syllables</label>
+                <input type="number" id="tng-max-syl" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="tng-min-wp">min_word_parts</label>
+                <input type="number" id="tng-min-wp" min="1" placeholder="none">
+              </div>
+              <div class="field">
+                <label for="tng-max-wp">max_word_parts</label>
+                <input type="number" id="tng-max-wp" min="1" placeholder="none">
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="field">
+        <label for="tng-n">Count (n)</label>
+        <input type="number" id="tng-n" value="20" min="1" max="10000">
+      </div>
+    </div>
+
+    <!-- ── Generate button ──────────────────────────────────────── -->
+    <div class="action-row">
+      <button class="btn btn-primary" id="generateBtn" onclick="generate()">Generate</button>
+      <span id="status"></span>
+    </div>
+
+  </div>
+
+  <!-- ── Output ─────────────────────────────────────────────────── -->
+  <div class="panel output-panel">
+    <div class="output-header">
+      <h2 style="margin:0;">Output</h2>
+      <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+    </div>
+    <textarea id="output" readonly placeholder="Generated names will appear here…"></textarea>
+  </div>
+</div>
+
+<script>
+// ── Name-part rows: enable/disable details on checkbox toggle ─────────
+function toggleNamePart(part) {
+  const cb = document.getElementById('png-part-' + part);
+  const details = document.getElementById('png-part-details-' + part);
+  const row = document.getElementById('png-part-row-' + part);
+  if (cb.checked) {
+    row.classList.remove('disabled');
+    details.style.display = '';
+  } else {
+    row.classList.add('disabled');
+    details.style.display = 'none';
+  }
+}
+
+// Initialise: hide details for unchecked parts
+document.querySelectorAll('[id^="png-part-"]').forEach(cb => {
+  if (cb.type === 'checkbox') {
+    const part = cb.id.replace('png-part-', '');
+    if (!cb.checked) {
+      document.getElementById('png-part-details-' + part).style.display = 'none';
+      document.getElementById('png-part-row-' + part).classList.add('disabled');
+    }
+  }
+});
+
+// ── Generator section switching ───────────────────────────────────────
+function switchGenerator() {
+  const type = document.getElementById('generatorType').value;
+  document.querySelectorAll('.generator-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + type).classList.add('active');
+}
+
+// ── Slider value display ──────────────────────────────────────────────
+function updateSliderVal(sliderId, valId) {
+  const v = parseFloat(document.getElementById(sliderId).value).toFixed(2);
+  document.getElementById(valId).textContent = v;
+}
+
+// ── Collect selected options from a <select multiple> ─────────────────
+function selectedValues(id) {
+  return Array.from(document.getElementById(id).selectedOptions).map(o => o.value);
+}
+
+// ── Collect word-constraint fields with a given prefix ────────────────
+function collectConstraints(prefix) {
+  const obj = {};
+  const keys = ['min_characters', 'max_characters', 'min_syllables',
+                 'max_syllables', 'min_word_parts', 'max_word_parts'];
+  for (const key of keys) {
+    const el = document.getElementById(prefix + key.replace(/_/g, '-'));
+    if (el && el.value !== '') obj[key] = el.value;
+  }
+  return obj;
+}
+
+// ── Build the JSON payload ────────────────────────────────────────────
+function collectData() {
+  const type = document.getElementById('generatorType').value;
+  const data = { generator_type: type };
+
+  if (type === 'SimpleNameGenerator') {
+    data.languages       = selectedValues('sng-langs');
+    data.name_part_type  = document.getElementById('sng-npt').value;
+    data.gender          = document.querySelector('input[name="sng-gender"]:checked').value;
+    data.markov          = parseFloat(document.getElementById('sng-markov').value);
+    data.pattern         = document.getElementById('sng-pattern').value;
+    data.no_repeat       = document.getElementById('sng-no-repeat').checked;
+    data.n               = parseInt(document.getElementById('sng-n').value, 10);
+    Object.assign(data, collectConstraints('sng-'));
+
+  } else if (type === 'PersonalNameGenerator') {
+    data.languages = selectedValues('png-langs');
+
+    // Collect checked name parts with their order
+    const nameParts = [];
+    const markov = {};
+    const patterns = {};
+    ['given_name','patronymic','metronymic','surname'].forEach(part => {
+      const cb = document.getElementById('png-part-' + part);
+      if (cb.checked) {
+        const order = parseInt(document.getElementById('png-order-' + part).value, 10) || 1;
+        nameParts.push({ part, order });
+        markov[part]   = parseFloat(document.getElementById('png-markov-' + part).value);
+        patterns[part] = document.getElementById('png-pattern-' + part).value;
+      }
+    });
+    data.name_pattern       = nameParts;
+    data.markov             = markov;
+    data.name_part_patterns = patterns;
+    data.female_fraction    = parseFloat(document.getElementById('png-ff').value);
+    data.n                  = parseInt(document.getElementById('png-n').value, 10);
+
+  } else if (type === 'PlaceNameGenerator') {
+    data.languages        = selectedValues('plng-langs');
+    data.place_categories = selectedValues('plng-cats');
+    data.pattern          = document.getElementById('plng-pattern').value;
+    data.n                = parseInt(document.getElementById('plng-n').value, 10);
+    Object.assign(data, collectConstraints('plng-'));
+
+  } else if (type === 'CompanyNameGenerator') {
+    data.languages  = selectedValues('cng-langs');
+    data.industries = selectedValues('cng-inds');
+    data.pattern    = document.getElementById('cng-pattern').value;
+    data.n          = parseInt(document.getElementById('cng-n').value, 10);
+    Object.assign(data, collectConstraints('cng-'));
+
+  } else if (type === 'TribalNameGenerator') {
+    data.languages = selectedValues('tng-langs');
+    data.markov    = parseFloat(document.getElementById('tng-markov').value);
+    data.pattern   = document.getElementById('tng-pattern').value;
+    data.no_repeat = document.getElementById('tng-no-repeat').checked;
+    data.n         = parseInt(document.getElementById('tng-n').value, 10);
+    Object.assign(data, collectConstraints('tng-'));
+  }
+
+  return data;
+}
+
+// ── Generate ──────────────────────────────────────────────────────────
+async function generate() {
+  const btn    = document.getElementById('generateBtn');
+  const status = document.getElementById('status');
+  const output = document.getElementById('output');
+
+  btn.disabled = true;
+  status.textContent = 'Generating…';
+  output.value = '';
+
+  let data;
+  try {
+    data = collectData();
+  } catch (e) {
+    status.textContent = 'Error: ' + e.message;
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    const resp = await fetch('/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = await resp.json();
+    if (json.error) {
+      status.textContent = 'Error: ' + json.error;
+      output.value = '';
+    } else {
+      output.value = json.result.join('\n');
+      status.textContent = json.result.length + ' names generated';
+    }
+  } catch (e) {
+    status.textContent = 'Network error: ' + e.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── Copy output ───────────────────────────────────────────────────────
+function copyOutput() {
+  const output = document.getElementById('output');
+  if (!output.value) return;
+  navigator.clipboard.writeText(output.value).catch(() => {
+    output.select();
+    document.execCommand('copy');
+  });
+}
+</script>
+</body>
+</html>
