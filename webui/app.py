@@ -26,8 +26,8 @@ PERSONAL_NAME_LANGUAGES = [
     'Indian', 'Indonesian', 'Iranian', 'Irish', 'Israeli', 'Italian', 'Japanese',
     'Kazakh', 'Khmer', 'Korean', 'Laotian', 'Latvian', 'Lithuanian', 'Malay',
     'Maltese', 'Norwegian', 'OldGerman', 'OldIrish', 'OldNorse', 'OldWelsh',
-    'Polish', 'Portuguese', 'Romanian', 'Russian', 'SerboCroatian', 'Spanish',
-    'Swedish', 'Thai', 'Turkish', 'Uzbek', 'Vietnamese',
+    'Pannonian', 'Polish', 'Portuguese', 'Romanian', 'Russian', 'SerboCroatian',
+    'Spanish', 'Swedish', 'Thai', 'Turkish', 'Uzbek', 'Vietnamese',
 ]
 
 TOPONYM_LANGUAGES = [
