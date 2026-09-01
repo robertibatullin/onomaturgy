@@ -6,6 +6,17 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.4.0] — 2026-06-06
+
+### Added
+- **Web UI** (`webui/`) — Flask-based browser interface for all five generators
+  (SimpleNameGenerator, PersonalNameGenerator, PlaceNameGenerator,
+  CompanyNameGenerator, TribalNameGenerator). Run with
+  `pip install -e .[webui] && python webui/app.py` then open
+  `http://localhost:5000`.
+
+---
+
 ## [0.3.0] — 2026-06-04
 
 ### Added
