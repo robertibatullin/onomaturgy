@@ -5,6 +5,7 @@ dist/
 build/
 .pytest_cache/
 smoke_test_output.txt
+.vscode/
 
 # Local CSV corpus — lives in the onomaturgy-data repo
 setting/
