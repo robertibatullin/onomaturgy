@@ -6,6 +6,19 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.4.1] — 2026-09-07
+
+### Added
+- **Pannonian** personal-name corpus (given names and gendered surnames)
+  registered in the web UI's language list.
+- `onomaturgy/helpers/deduplicate.py` — dev script to deduplicate a name CSV,
+  summing frequencies of duplicate names.
+
+### Changed
+- `.gitignore` now excludes `.vscode/`.
+
+---
+
 ## [0.4.0] — 2026-06-06
 
 ### Added

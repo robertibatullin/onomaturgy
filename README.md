@@ -137,6 +137,7 @@ print(gen.generate(n=5))
 | OldIrish | Old Irish (given names only) |
 | OldNorse | Old Norse (given names only) |
 | OldWelsh | Old Welsh (given names only) |
+| Pannonian | Pannonian (with gendered surnames) |
 | Polish | Polish (with gendered surnames) |
 | Portuguese | Brazilian, Portuguese |
 | Romanian | Romanian |
